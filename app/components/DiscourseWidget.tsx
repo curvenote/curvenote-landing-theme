@@ -1,0 +1,52 @@
+import { useEffect, useState } from 'react';
+import { cn } from '~/utils/cn';
+import DiscourseIcon from '@scienceicons/react/24/solid/DiscourseIcon';
+
+export function DiscourseLoading() {
+  return (
+    <div className="flex items-center justify-center p-6 border-4 border-gray-200 dark:border-gray-600">
+      <div className="flex flex-col items-center text-gray-500 dark:text-gray-300">
+        <span className="flex items-end text-xl font-black">
+          <DiscourseIcon className="inline-block w-8 h-8" />
+          iscourse
+        </span>
+        <span className="animate-pulse">loading</span>
+      </div>
+    </div>
+  );
+}
+
+export function DiscourseWidget() {
+  const [loaded, setLoaded] = useState(false);
+
+  const url = 'https://forum.qiime2.org';
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `${url}/javascripts/embed-topics.js`;
+    script.async = true;
+    script.onload = () => {
+      console.log('Script loaded successfully');
+    };
+    script.onerror = () => {
+      console.error('Script failed to load');
+    };
+
+    document.body.appendChild(script);
+    setLoaded(true);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <div>
+      {!loaded && <DiscourseLoading />}
+      {loaded && (
+        <div className="border-4 norder-gray-200 dark:border-gray-600 min-h-[60px]">
+          <d-topics-list discourse-url={url} category="announcements" per-page="5"></d-topics-list>
+        </div>
+      )}
+    </div>
+  );
+}

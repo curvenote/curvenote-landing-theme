@@ -1,0 +1,64 @@
+jtex: v1
+title: Landing Theme
+description: Simple MyST based landing page for projects and communities
+version: 1.0.0
+license: MIT
+source: https://github.com/executablebooks/myst-landing-theme
+thumbnail: ./thumbnail.png
+authors:
+  - name: Steve Purves
+    website: https://curvenote.com
+    affiliations:
+      - Curvenote
+tags:
+  - website
+parts:
+  - id: hero
+    description: |
+      Identifies a hero unit
+  - id: footer
+    description: |
+      Identifies a footer unit
+options:
+  - type: number
+    id: topbar_height
+    description: Height of the top bar area
+  - type: boolean
+    id: topbar_floating
+    description: Top bar will be transparent, borderless and will overlay content
+  - type: boolean
+    id: topbar_fixed
+    description: Top bar will be fixed
+  - type: string
+    id: stylesheet
+    description: Path to a local, user defined stylesheet
+  - type: string
+    id: twitter
+    description: Twitter handle related to the site
+  - type: file
+    id: favicon
+    description: Local path to favicon image
+  - type: file
+    id: logo
+    description: Local path to logo image
+  - type: file
+    id: logo_dark
+    description: Local path to logo image for dark mode
+  - type: string
+    id: logo_text
+    description: Short text to display next to logo at the top of all pages
+  - type: string
+    id: analytics_google
+    description: Google analytics key
+  - type: string
+    id: analytics_plausible
+    description: Plausible analytics key
+build:
+  install: npm install
+  start: npm run start
+# files:
+#   - server.js
+#   - package.json
+#   - package-lock.json
+#   - public/**/*
+#   - build/**/*
