@@ -1,10 +1,13 @@
+import { useGridSystemProvider } from '@myst-theme/providers';
 import { ContentBlocks } from '@myst-theme/site';
-import { GenericParent } from 'myst-common';
+import type { GenericParent } from 'myst-common';
+import { cn } from '~/utils/cn';
 
-export function Section({ content }: { content?: GenericParent }) {
+export function Section({ className, content }: { className?: string; content?: GenericParent }) {
+  const grid = useGridSystemProvider();
   if (!content) return null;
   return (
-    <section className="col-screen article-center-grid">
+    <section className={cn(grid, className)}>
       <ContentBlocks mdast={content} className="col-screen" />
     </section>
   );

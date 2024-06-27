@@ -1,9 +1,12 @@
+import { useGridSystemProvider } from '@myst-theme/providers';
 import { ExternalOrInternalLink } from '@myst-theme/site';
-import { GenericParent, toText } from 'myst-common';
+import type { GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { cn } from '~/utils/cn';
 
 export function Hero({
+  containerClassName,
+  innerClassName = 'col-page-inset',
   title,
   tagline,
   description,
@@ -13,6 +16,8 @@ export function Hero({
   padding,
   ctas,
 }: {
+  containerClassName?: string;
+  innerClassName?: string;
   title?: GenericParent;
   tagline?: GenericParent;
   description?: GenericParent;
@@ -22,13 +27,14 @@ export function Hero({
   padding?: string;
   ctas?: { title: string; url: string }[];
 }) {
+  const grid = useGridSystemProvider();
   const ctaClasses = [
     'inline-block px-8 py-4 text-lg font-semibold tracking-wide no-underline bg-white border-white rounded-lg border-1 opacity-90 hover:opacity-100',
     'inline-block px-8 py-4 rounded-lg bg-transparent border-1 text-white no-underline text-lg font-semibold tracking-wide hover:bg-gray-50/20',
   ];
   return (
     <div
-      className="article-center-grid"
+      className={cn(grid, 'grid-gap', containerClassName)}
       style={{
         backgroundPosition: 'center',
         backgroundSize: 'cover',
@@ -38,7 +44,7 @@ export function Hero({
         padding,
       }}
     >
-      <div className="col-page">
+      <div className={innerClassName}>
         {title && (
           <h1 className="mb-0 hero-heading" style={{ color: textColor }}>
             <MyST ast={title.children} />

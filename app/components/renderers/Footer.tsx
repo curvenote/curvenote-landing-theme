@@ -1,6 +1,6 @@
 import { SocialIcons } from '@curvenote/social';
-import type { SocialLink, FooterLink } from '@curvenote/common';
-import { GenericParent } from 'myst-common';
+import type { SocialLink } from '@curvenote/common';
+import type { GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { cn } from '~/utils/cn';
 
@@ -70,9 +70,7 @@ export function Footer({
                   style={{ color: textColor }}
                 >
                   {linkChildren.map((item, ii) => (
-                    <div>
-                      <MyST ast={item} />
-                    </div>
+                    <MyST key={100 * i + ii} ast={item} />
                   ))}
                 </ul>
               ))}

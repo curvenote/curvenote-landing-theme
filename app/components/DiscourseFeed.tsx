@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DiscourseLoading } from './DiscourseWidget';
 import { useFetcher } from '@remix-run/react';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 
 type User = {
   id: number;
@@ -109,8 +109,11 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
       </td>
       <td className="font-semibold text-center text-gray-400 align-middle">{replies}</td>
       <td className="font-semibold text-center text-gray-400 p-auto">{views}</td>
-      <td className="font-semibold text-center text-gray-400 p-auto">
-        {formatDistanceToNow(new Date(last_posted_at))}
+      <td
+        className="text-center text-gray-400 p-auto"
+        title={format(new Date(), 'yyyy MM dd, HH:SS')}
+      >
+        {formatDistanceToNow(new Date(last_posted_at), { addSuffix: true })}
       </td>
     </tr>
   );
@@ -143,7 +146,7 @@ export function DiscourseFeed({
   useEffect(() => {
     fetcher.submit(
       { intent: 'load-json', url: `${forumUrl.replace(/\/$/, '')}/c/${category}.json` },
-      { method: 'POST' },
+      { method: 'POST' }
     );
     setLoading(false);
   }, []);
@@ -174,7 +177,7 @@ export function DiscourseFeed({
         <div>
           <div className="flex justify-between w-full ">
             <div className="flex items-center justify-center p-1 rounded dark:bg-gray-100">
-              <img src={logo} alt={logoText} className="w-auto h-8 m-0" />
+              {logo && <img src={logo} alt={logoText} className="w-auto h-8 m-0" />}
             </div>
             <a
               className="cursor-pointer not-prose hover:underline"

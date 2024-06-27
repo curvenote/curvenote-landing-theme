@@ -59,6 +59,7 @@ module.exports = {
     '@curvenote/ansi-to-react',
     'jats-utils',
     '@curvenote/social',
+    '@curvenote/footers',
   ],
   watchPaths: ['../../packages/**/*'],
   future: {

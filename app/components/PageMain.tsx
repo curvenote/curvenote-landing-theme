@@ -1,8 +1,5 @@
 import type { PageLoader } from '@myst-theme/common';
 import {
-  FooterLinksBlock,
-  ArticleHeader,
-  Error404,
   Bibliography,
   Footnotes,
   ContentBlocks,
@@ -13,7 +10,6 @@ import {
 import {
   ConnectionStatusTray,
   ErrorTray,
-  LaunchBinder,
   NotebookToolbar,
   useComputeOptions,
 } from '@myst-theme/jupyter';
@@ -29,12 +25,14 @@ import {
 import classNames from 'classnames';
 import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { GenericParent, copyNode } from 'myst-common';
+import type { GenericParent } from 'myst-common';
+import { copyNode } from 'myst-common';
 import { HashLink } from 'myst-to-react';
 import { Section } from './Section';
 import { extractThemeParts } from '~/utils/myst';
 import { DiscourseWidget } from './DiscourseWidget';
 import { DiscourseFeed } from './DiscourseFeed';
+import { cn } from '~/utils/cn';
 
 export function PageMain({ article }: { article: PageLoader }) {
   const grid = useGridSystemProvider();
@@ -61,20 +59,24 @@ export function PageMain({ article }: { article: PageLoader }) {
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          <main id="main" className={classNames(grid, 'subgrid-gap col-screen')}>
+          <main id="main" className={classNames(grid, 'col-screen')}>
             {/* Landing page could be a notebook 🤯  */}
             {compute?.enabled &&
               compute?.features.notebookCompute &&
               article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
             <ErrorTray pageSlug={article.slug} />
-            <div className="col-screen article-center-grid">
-              {themeParts.hero && <Section content={themeParts.hero} />}
+            {themeParts.hero && (
+              <Section className="col-screen subgrid-gap" content={themeParts.hero} />
+            )}
+            <section className={cn(grid, 'col-screen subgrid-gap')}>
               <div id="skip-to-article" className="py-6" />
-              <h1 className="col-page">
+              <h1 className="col-page-inset">
                 {article.frontmatter.title}
                 <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
               </h1>
-              <FrontmatterParts parts={knownParts} />
+              <div className="col-page-inset">
+                <FrontmatterParts parts={knownParts} />
+              </div>
               <DiscourseFeed
                 className="col-page-inset"
                 logo="https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/flex002/uploads/qiime21/original/2X/3/32cfb71cfbcecd0d160df5fe08f51014402e7caf.png"
@@ -83,14 +85,18 @@ export function PageMain({ article }: { article: PageLoader }) {
                 category="announcements"
                 limit={10}
               />
-              <ContentBlocks mdast={tree as GenericParent} className="col-page" />
-              <BackmatterParts parts={knownParts} />
+              <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
+              <div className="col-page-inset">
+                <BackmatterParts parts={knownParts} />
+              </div>
               <div id="skip-to-end" />
               <Footnotes />
               <Bibliography />
-            </div>
-            <div className="py-6" />
-            {themeParts.footer && <Section content={themeParts.footer} />}
+              <div className="py-6" />
+            </section>
+            {themeParts.footer && (
+              <ContentBlocks mdast={themeParts.footer} className="col-screen subgrid-gap" />
+            )}
             <ConnectionStatusTray />
           </main>
         </ExecuteScopeProvider>
