@@ -59,46 +59,44 @@ export function PageMain({ article }: { article: PageLoader }) {
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          <main id="main" className={classNames(grid, 'col-screen')}>
-            {/* Landing page could be a notebook 🤯  */}
-            {compute?.enabled &&
-              compute?.features.notebookCompute &&
-              article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-            <ErrorTray pageSlug={article.slug} />
-            {themeParts.hero && (
-              <Section className="col-screen subgrid-gap" content={themeParts.hero} />
-            )}
-            <section className={cn(grid, 'col-screen subgrid-gap')}>
-              <div id="skip-to-article" className="py-6" />
-              <h1 className="col-page-inset">
-                {article.frontmatter.title}
-                <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
-              </h1>
-              <div className="col-page-inset">
-                <FrontmatterParts parts={knownParts} />
-              </div>
-              <DiscourseFeed
-                className="col-page-inset"
-                logo="https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/flex002/uploads/qiime21/original/2X/3/32cfb71cfbcecd0d160df5fe08f51014402e7caf.png"
-                logoText="Qiime 2"
-                forumUrl={'https://forum.qiime2.org'}
-                category="announcements"
-                limit={10}
-              />
-              <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
-              <div className="col-page-inset">
-                <BackmatterParts parts={knownParts} />
-              </div>
-              <div id="skip-to-end" />
-              <Footnotes />
-              <Bibliography />
-              <div className="py-6" />
-            </section>
-            {themeParts.footer && (
-              <ContentBlocks mdast={themeParts.footer} className="col-screen subgrid-gap" />
-            )}
-            <ConnectionStatusTray />
+          {/* Landing page could be a notebook 🤯  */}
+          {compute?.enabled &&
+            compute?.features.notebookCompute &&
+            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+          <ErrorTray pageSlug={article.slug} />
+          {themeParts.hero && (
+            <Section className="col-screen subgrid-gap" content={themeParts.hero} />
+          )}
+          <main id="main" className={cn(grid, 'col-screen grid-gap')}>
+            <div id="skip-to-article" className="py-6" />
+            <h1 className="col-page-inset">
+              {article.frontmatter.title}
+              <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
+            </h1>
+            <div className="col-page-inset">
+              <FrontmatterParts parts={knownParts} />
+            </div>
+            <DiscourseFeed
+              className="col-page-inset"
+              logo="https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/flex002/uploads/qiime21/original/2X/3/32cfb71cfbcecd0d160df5fe08f51014402e7caf.png"
+              logoText="Qiime 2"
+              forumUrl={'https://forum.qiime2.org'}
+              category="announcements"
+              limit={10}
+            />
+            <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
+            <div className="col-page-inset">
+              <BackmatterParts parts={knownParts} />
+            </div>
+            <div id="skip-to-end" />
+            <Footnotes />
+            <Bibliography />
+            <div className="py-6" />
           </main>
+          {themeParts.footer && (
+            <ContentBlocks mdast={themeParts.footer} className="col-screen subgrid-gap" />
+          )}
+          <ConnectionStatusTray />
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>
