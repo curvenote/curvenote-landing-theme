@@ -76,14 +76,6 @@ export function PageMain({ article }: { article: PageLoader }) {
             <div className="col-page-inset">
               <FrontmatterParts parts={knownParts} />
             </div>
-            <DiscourseFeed
-              className="col-page-inset"
-              logo="https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/flex002/uploads/qiime21/original/2X/3/32cfb71cfbcecd0d160df5fe08f51014402e7caf.png"
-              logoText="Qiime 2"
-              forumUrl={'https://forum.qiime2.org'}
-              category="announcements"
-              limit={10}
-            />
             <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
             <div className="col-page-inset">
               <BackmatterParts parts={knownParts} />

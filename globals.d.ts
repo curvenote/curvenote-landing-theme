@@ -1,9 +1,9 @@
-import React from 'react';
+import type React from 'react';
 
 interface TopicsListProps extends React.HTMLAttributes<HTMLElement> {
   'discourse-url': string;
   category: string;
-  'per-page': string;
+  'per-page'?: string | number;
   // Add other props as needed
 }
 

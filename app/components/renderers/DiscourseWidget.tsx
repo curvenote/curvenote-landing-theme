@@ -16,17 +16,23 @@ export function DiscourseLoading() {
   );
 }
 
-export function DiscourseWidget() {
+export function DiscourseWidget({
+  url,
+  category,
+  limit,
+}: {
+  url: string;
+  category: string;
+  limit?: number;
+}) {
   const [loaded, setLoaded] = useState(false);
-
-  const url = 'https://forum.qiime2.org';
 
   useEffect(() => {
     const script = document.createElement('script');
     script.src = `${url}/javascripts/embed-topics.js`;
     script.async = true;
     script.onload = () => {
-      console.log('Script loaded successfully');
+      console.debug('Discourse script loaded successfully');
     };
     script.onerror = () => {
       console.error('Script failed to load');
@@ -44,7 +50,7 @@ export function DiscourseWidget() {
       {!loaded && <DiscourseLoading />}
       {loaded && (
         <div className="border-4 norder-gray-200 dark:border-gray-600 min-h-[60px]">
-          <d-topics-list discourse-url={url} category="announcements" per-page="5"></d-topics-list>
+          <d-topics-list discourse-url={url} category={category} per-page={limit}></d-topics-list>
         </div>
       )}
     </div>

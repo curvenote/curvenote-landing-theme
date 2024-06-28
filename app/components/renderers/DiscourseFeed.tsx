@@ -3,7 +3,7 @@ import { DiscourseLoading } from './DiscourseWidget';
 import { useFetcher } from '@remix-run/react';
 import { formatDistanceToNow, format } from 'date-fns';
 
-type User = {
+export type User = {
   id: number;
   username: string;
   name: string;
@@ -13,7 +13,7 @@ type User = {
   trust_level: number;
 };
 
-type Topic = {
+export type Topic = {
   id: number;
   title: string;
   fancy_title: string;
@@ -49,13 +49,28 @@ type Topic = {
   posters: Poster[];
 };
 
-type Poster = {
+export type Poster = {
   extras: string | null;
   description: string;
   user_id: number;
   primary_group_id: string | null;
   flair_group_id: string | null;
   user?: User;
+};
+
+export type DiscourseJsonResponse = {
+  users: User[];
+  topic_list: {
+    can_create_topic: boolean;
+    draft: string;
+    draft_key: string;
+    draft_sequence: number;
+    per_page: number;
+    draft_title: string;
+    draft_category: string;
+    draft_tags: string[];
+    topics: Topic[];
+  };
 };
 
 function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string }) {
@@ -91,7 +106,6 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
         <div className="flex flex-wrap gap-1 max-w-[100px] items-center">
           {posters.map((p) => {
             const imgUrl = p.user?.avatar_template.replace('{size}', '24');
-            console.log('imgUrl', p.user);
             return (
               <div
                 key={`${id}-${p.user_id}`}
@@ -122,26 +136,26 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
 export function DiscourseFeed({
   className,
   logo,
-  logoText,
+  logoDark,
+  logoTitle,
   forumUrl,
   category,
   pinned,
   limit,
+  isDark,
 }: {
   className?: string;
   logo?: string;
-  logoText?: string;
+  logoDark?: string;
+  logoTitle?: string;
   forumUrl: string;
   category: string;
   pinned?: boolean;
   limit?: number;
+  isDark?: boolean;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const fetcher = useFetcher<any>();
-
-  //   const logo =
-  //     'https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/flex002/uploads/qiime21/original/2X/3/32cfb71cfbcecd0d160df5fe08f51014402e7caf.png';
-  //   const logoText = 'Qiime 2';
 
   useEffect(() => {
     fetcher.submit(
@@ -177,7 +191,8 @@ export function DiscourseFeed({
         <div>
           <div className="flex justify-between w-full ">
             <div className="flex items-center justify-center p-1 rounded dark:bg-gray-100">
-              {logo && <img src={logo} alt={logoText} className="w-auto h-8 m-0" />}
+              {!isDark && logo && <img src={logo} alt={logoTitle} className="w-auto h-8 m-0" />}
+              {isDark && <img src={logoDark ?? logo} alt={logoTitle} className="w-auto h-8 m-0" />}
             </div>
             <a
               className="cursor-pointer not-prose hover:underline"
@@ -190,11 +205,13 @@ export function DiscourseFeed({
           </div>
           <table className="mt-2 table-auto">
             <thead className="[&>*]:text-gray-400 border-b-4 border-gray-200">
-              <th>Topic</th>
-              <th></th>
-              <th className="text-center">Replies</th>
-              <th className="text-center">Views</th>
-              <th className="text-center">Activity</th>
+              <tr>
+                <th>Topic</th>
+                <th></th>
+                <th className="text-center">Replies</th>
+                <th className="text-center">Views</th>
+                <th className="text-center">Activity</th>
+              </tr>
             </thead>
             <tbody>
               {filteredTopics?.map((t) => (

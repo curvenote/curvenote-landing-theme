@@ -15,7 +15,6 @@ export function TopBar() {
 
   const height = topbar_height ?? DEFAULT_HEIGHT;
 
-  console.log('TopBar', config);
   return (
     <div style={{ height: topbar_fixed || !topbar_floating ? height : 0 }}>
       <div
