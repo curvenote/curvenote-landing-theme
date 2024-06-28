@@ -30,7 +30,7 @@ export function Hero({
   const grid = useGridSystemProvider();
   const ctaClasses = [
     'inline-block px-8 py-4 text-lg font-semibold tracking-wide no-underline bg-white border-white rounded-lg border-1 opacity-90 hover:opacity-100',
-    'inline-block px-8 py-4 rounded-lg bg-transparent border-1 text-white no-underline text-lg font-semibold tracking-wide hover:bg-gray-50/20',
+    'inline-block px-8 py-4 rounded-lg bg-transparent border border-1 border-white text-white no-underline text-lg font-semibold tracking-wide hover:bg-gray-50/20',
   ];
   return (
     <div

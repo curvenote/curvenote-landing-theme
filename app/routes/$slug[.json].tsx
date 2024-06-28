@@ -1,5 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import { applyCustomTransforms } from '~/transforms';
 import { getMystXrefJson, getPage } from '~/utils/loaders.server';
 
 function api404(message = 'No API route found at this URL') {
@@ -8,7 +9,7 @@ function api404(message = 'No API route found at this URL') {
       status: 404,
       message,
     },
-    { status: 404 },
+    { status: 404 }
   );
 }
 
@@ -22,6 +23,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
   const data = await getPage(request, { slug }).catch(() => null);
   if (!data) return api404('No page found at this URL.');
+
+  await applyCustomTransforms(data.mdast);
+
   return json(data, {
     headers: {
       'Access-Control-Allow-Origin': '*',

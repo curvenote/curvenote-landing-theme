@@ -1,1 +1,16 @@
 @import '@myst-theme/styles';
+
+.force-scroll-400 {
+  overflow: auto;
+  max-height: 400px;
+}
+
+.force-scroll-600 {
+  overflow: auto;
+  max-height: 600px;
+}
+
+.force-scroll-800 {
+  overflow: auto;
+  max-height: 800px;
+}

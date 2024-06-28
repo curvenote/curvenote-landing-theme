@@ -1,77 +1,6 @@
-import { useEffect, useState } from 'react';
-import { DiscourseLoading } from './DiscourseWidget';
-import { useFetcher } from '@remix-run/react';
+import { DiscoursePlaceholder } from './DiscourseWidget';
 import { formatDistanceToNow, format } from 'date-fns';
-
-export type User = {
-  id: number;
-  username: string;
-  name: string;
-  avatar_template: string;
-  admin?: boolean;
-  moderator?: boolean;
-  trust_level: number;
-};
-
-export type Topic = {
-  id: number;
-  title: string;
-  fancy_title: string;
-  slug: string;
-  posts_count: number;
-  reply_count: number;
-  highest_post_number: number;
-  image_url: string | null;
-  created_at: string;
-  last_posted_at: string;
-  bumped: boolean;
-  bumped_at: string;
-  archetype: string;
-  unseen: boolean;
-  pinned: boolean;
-  unpinned: string | null;
-  excerpt: string;
-  visible: boolean;
-  closed: boolean;
-  archived: boolean;
-  bookmarked: string | null;
-  liked: string | null;
-  tags: string[];
-  tags_descriptions: Record<string, string>;
-  views: number;
-  like_count: number;
-  has_summary: boolean;
-  last_poster_username: string;
-  category_id: number;
-  pinned_globally: boolean;
-  featured_link: string | null;
-  has_accepted_answer: boolean;
-  posters: Poster[];
-};
-
-export type Poster = {
-  extras: string | null;
-  description: string;
-  user_id: number;
-  primary_group_id: string | null;
-  flair_group_id: string | null;
-  user?: User;
-};
-
-export type DiscourseJsonResponse = {
-  users: User[];
-  topic_list: {
-    can_create_topic: boolean;
-    draft: string;
-    draft_key: string;
-    draft_sequence: number;
-    per_page: number;
-    draft_title: string;
-    draft_category: string;
-    draft_tags: string[];
-    topics: Topic[];
-  };
-};
+import type { Topic } from '../../transforms/discourseTypes';
 
 function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string }) {
   const {
@@ -134,60 +63,37 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
 }
 
 export function DiscourseFeed({
+  url,
+  category,
+  topics,
+  error,
   className,
   logo,
   logoDark,
   logoTitle,
-  forumUrl,
-  category,
-  pinned,
-  limit,
   isDark,
 }: {
+  url: string;
+  category: string;
+  topics: Topic[];
+  error?: string;
   className?: string;
   logo?: string;
   logoDark?: string;
   logoTitle?: string;
-  forumUrl: string;
-  category: string;
-  pinned?: boolean;
-  limit?: number;
   isDark?: boolean;
 }) {
-  const [loading, setLoading] = useState<boolean>(true);
-  const fetcher = useFetcher<any>();
-
-  useEffect(() => {
-    fetcher.submit(
-      { intent: 'load-json', url: `${forumUrl.replace(/\/$/, '')}/c/${category}.json` },
-      { method: 'POST' }
+  if (error) {
+    return (
+      <section className={className}>
+        <DiscoursePlaceholder placeholder={<span className="text-red-700">{error}</span>} />
+      </section>
     );
-    setLoading(false);
-  }, []);
-
-  const busy = loading || fetcher.state !== 'idle';
-  const users = fetcher.data?.users as User[];
-  const topics = fetcher.data?.topic_list
-    ? (fetcher.data?.topic_list?.topics as Topic[]).map((t) => {
-        t.posters = t.posters.map((p) => {
-          return {
-            ...p,
-            user: users.find((u) => u.id === p.user_id),
-          };
-        });
-        return t;
-      })
-    : undefined;
-  const filteredTopics = topics
-    ?.filter((t) => (!pinned ? !t.pinned : true))
-    .filter((t) => t.visible && !t.archived)
-    .slice(0, limit);
-
+  }
   return (
     <section className={className}>
-      {busy && <DiscourseLoading />}
-      {!busy && topics?.length === 0 && <div>No topics found</div>}
-      {!busy && (topics?.length ?? 0) > 0 && (
+      {topics.length === 0 && <DiscoursePlaceholder placeholder={<span>no topics found</span>} />}
+      {(topics.length ?? 0) > 0 && (
         <div>
           <div className="flex justify-between w-full ">
             <div className="flex items-center justify-center p-1 rounded dark:bg-gray-100">
@@ -196,7 +102,7 @@ export function DiscourseFeed({
             </div>
             <a
               className="cursor-pointer not-prose hover:underline"
-              href={`${forumUrl}/c/${category}`}
+              href={`${url}/c/${category}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -204,18 +110,18 @@ export function DiscourseFeed({
             </a>
           </div>
           <table className="mt-2 table-auto">
-            <thead className="[&>*]:text-gray-400 border-b-4 border-gray-200">
+            <thead className="border-b-4 border-gray-200">
               <tr>
-                <th>Topic</th>
-                <th></th>
-                <th className="text-center">Replies</th>
-                <th className="text-center">Views</th>
-                <th className="text-center">Activity</th>
+                <th className="text-gray-400">Topic</th>
+                <th className="text-gray-400"></th>
+                <th className="text-center text-gray-400">Replies</th>
+                <th className="text-center text-gray-400">Views</th>
+                <th className="text-center text-gray-400">Activity</th>
               </tr>
             </thead>
             <tbody>
-              {filteredTopics?.map((t) => (
-                <DiscourseFeedItem key={t.id} topic={t} forumUrl={forumUrl} />
+              {topics.map((t) => (
+                <DiscourseFeedItem key={t.id} topic={t} forumUrl={url} />
               ))}
             </tbody>
           </table>

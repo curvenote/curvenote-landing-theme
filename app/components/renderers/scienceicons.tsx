@@ -19,7 +19,7 @@ export const ScienceIconRenderer: NodeRenderer = ({ node }: { node: GenericNode 
     const { names, ...components } = scicon;
     const Component = components[componentName as keyof typeof components];
     return (
-      <span className="inline-flex align-text-bottom">
+      <span className="inline-flex align-text-bottom" title={node.value}>
         <Component width="1rem" height="1rem" />
       </span>
     );

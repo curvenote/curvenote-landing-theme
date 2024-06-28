@@ -7,6 +7,7 @@ import {
   getProject,
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
+  FooterLinks,
 } from '@myst-theme/common';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 
@@ -54,15 +55,21 @@ export async function getPage(
     loadIndexPage?: boolean;
     slug?: string;
     redirect?: boolean;
-  },
-) {
+  }
+): Promise<
+  Omit<PageLoader, 'project'> & {
+    domain: string;
+    footer: FooterLinks;
+    project?: string;
+  }
+> {
   const projectName = opts.project;
   const config = await getConfig();
   if (!config) throw responseNoSite();
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(projectName ? `/${projectName}` : '/');
+    throw redirect(projectName ? `/${projectName}` : '/');
   }
   const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
   const loader = await getStaticContent(projectName, slug).catch(() => null);

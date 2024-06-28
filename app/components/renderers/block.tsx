@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '@myst-theme/providers';
+import { type NodeRenderer } from '@myst-theme/providers';
 import { Hero } from './Hero';
 import { JournalFooter } from '@curvenote/footers';
 import type { GenericParent } from 'myst-common';

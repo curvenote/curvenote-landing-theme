@@ -14,15 +14,7 @@ import {
   useComputeOptions,
 } from '@myst-theme/jupyter';
 import type { SiteManifest } from 'myst-config';
-import {
-  ReferencesProvider,
-  useBaseurl,
-  useGridSystemProvider,
-  useLinkProvider,
-  useProjectManifest,
-  useSiteManifest,
-} from '@myst-theme/providers';
-import classNames from 'classnames';
+import { ReferencesProvider, useGridSystemProvider, useSiteManifest } from '@myst-theme/providers';
 import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
@@ -30,22 +22,13 @@ import { copyNode } from 'myst-common';
 import { HashLink } from 'myst-to-react';
 import { Section } from './Section';
 import { extractThemeParts } from '~/utils/myst';
-import { DiscourseWidget } from './DiscourseWidget';
-import { DiscourseFeed } from './DiscourseFeed';
 import { cn } from '~/utils/cn';
 
 export function PageMain({ article }: { article: PageLoader }) {
   const grid = useGridSystemProvider();
 
   const siteManifest = useSiteManifest() as SiteManifest;
-  const { title, actions } = siteManifest ?? {};
-  const { logo, logo_dark, logo_text, topbar_height, topbar_floating, topbar_fixed } =
-    siteManifest?.options ?? {};
-
-  const project = useProjectManifest();
-
-  const Link = useLinkProvider();
-  const baseurl = useBaseurl();
+  const { title } = siteManifest ?? {};
   const compute = useComputeOptions();
 
   const tree = copyNode(article.mdast);
@@ -69,17 +52,15 @@ export function PageMain({ article }: { article: PageLoader }) {
           )}
           <main id="main" className={cn(grid, 'col-screen grid-gap')}>
             <div id="skip-to-article" className="py-6" />
-            <h1 className="col-page-inset">
-              {article.frontmatter.title}
-              <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
-            </h1>
-            <div className="col-page-inset">
-              <FrontmatterParts parts={knownParts} />
-            </div>
+            {!themeParts.hero && (
+              <h1 className="my-0 col-page-inset">
+                {article.frontmatter.title}
+                <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
+              </h1>
+            )}
+            <FrontmatterParts parts={knownParts} />
             <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
-            <div className="col-page-inset">
-              <BackmatterParts parts={knownParts} />
-            </div>
+            <BackmatterParts parts={knownParts} />
             <div id="skip-to-end" />
             <Footnotes />
             <Bibliography />

@@ -14,9 +14,10 @@ import type {
   V2_MetaFunction,
 } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { SiteManifest } from 'myst-config';
+import type { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 import fetch from 'node-fetch';
+import { applyCustomTransforms } from '~/transforms';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -46,6 +47,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!project) throw responseNoArticle();
   if (project.slug) return redirect(`/${project.slug}`);
   const page = await getPage(request, { slug: project.index });
+
+  await applyCustomTransforms(page.mdast);
+
   return { config, project, page };
 };
 

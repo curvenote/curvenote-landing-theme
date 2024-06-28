@@ -60,6 +60,8 @@ module.exports = {
     'jats-utils',
     '@curvenote/social',
     '@curvenote/footers',
+    'p-limit',
+    'yocto-queue',
   ],
   watchPaths: ['../../packages/**/*'],
   future: {
