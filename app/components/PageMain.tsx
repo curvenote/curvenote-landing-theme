@@ -61,7 +61,6 @@ export function PageMain({ article }: { article: PageLoader }) {
             <FrontmatterParts parts={knownParts} />
             <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
             <BackmatterParts parts={knownParts} />
-            <div id="skip-to-end" />
             <Footnotes />
             <Bibliography />
             <div className="py-6" />

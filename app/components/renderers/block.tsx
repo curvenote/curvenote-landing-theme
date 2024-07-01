@@ -1,4 +1,4 @@
-import { type NodeRenderer } from '@myst-theme/providers';
+import { GridSystemProvider, type NodeRenderer } from '@myst-theme/providers';
 import { Hero } from './Hero';
 import { JournalFooter } from '@curvenote/footers';
 import type { GenericParent } from 'myst-common';
@@ -135,7 +135,7 @@ export const CustomBlockRenderer: NodeRenderer = ({
 
       return (
         <JournalFooter
-          className="not-prose"
+          className="not-prose article-center-grid"
           logo={logo}
           logoDark={logoDark}
           logoTitle={logoTitle}
