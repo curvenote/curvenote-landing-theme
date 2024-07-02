@@ -58,11 +58,11 @@ export function PageMain({ article }: { article: PageLoader }) {
                 <HashLink id="main-title" title={`Link to ${title}`} hover className="ml-2" />
               </h1>
             )}
-            <FrontmatterParts parts={knownParts} />
+            <FrontmatterParts parts={knownParts} containerClassName="col-page-inset" />
             <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
-            <BackmatterParts parts={knownParts} />
-            <Footnotes />
-            <Bibliography />
+            <BackmatterParts parts={knownParts} containerClassName="col-page-inset" />
+            <Footnotes innerClassName="col-page-inset" />
+            <Bibliography innerClassName="col-page-inset" />
             <div className="py-6" />
           </main>
           {themeParts.footer && (
