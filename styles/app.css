@@ -14,3 +14,8 @@
   overflow: auto;
   max-height: 800px;
 }
+
+.force-scroll-1000 {
+  overflow: auto;
+  max-height: 800px;
+}
