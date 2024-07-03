@@ -2,7 +2,7 @@ import { DiscoursePlaceholder } from './DiscourseWidget';
 import { formatDistanceToNow, format } from 'date-fns';
 import type { Topic } from '../../transforms/discourseTypes';
 
-function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string }) {
+function DiscourseFeedItem({ topic, url }: { topic: Topic; url: string }) {
   const {
     id,
     slug,
@@ -23,7 +23,7 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
       <td>
         <a
           className="cursor-pointer not-prose group"
-          href={`${forumUrl}/t/${slug}/${id}`}
+          href={`${url}/t/${slug}/${id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -41,7 +41,7 @@ function DiscourseFeedItem({ topic, forumUrl }: { topic: Topic; forumUrl: string
                 className="w-6 h-6 bg-gray-400 rounded-full"
                 title={p.user?.username}
                 style={{
-                  backgroundImage: `url(${forumUrl}${imgUrl})`,
+                  backgroundImage: `url(${url}${imgUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
@@ -83,13 +83,15 @@ export function DiscourseFeed({
   logoTitle?: string;
   isDark?: boolean;
 }) {
-  if (error) {
+  console.log({ topics });
+  if (error || !topics) {
     return (
       <section className={className}>
-        <DiscoursePlaceholder placeholder={<span className="text-red-700">{error}</span>} />
+        <DiscoursePlaceholder placeholder={<span className="text-red-300">{error}</span>} />
       </section>
     );
   }
+
   return (
     <section className={className}>
       {topics.length === 0 && <DiscoursePlaceholder placeholder={<span>no topics found</span>} />}
@@ -121,7 +123,7 @@ export function DiscourseFeed({
             </thead>
             <tbody>
               {topics.map((t) => (
-                <DiscourseFeedItem key={t.id} topic={t} forumUrl={url} />
+                <DiscourseFeedItem key={t.id} topic={t} url={url} />
               ))}
             </tbody>
           </table>

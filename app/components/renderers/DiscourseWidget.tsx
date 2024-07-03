@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DiscourseIcon from '@scienceicons/react/24/solid/DiscourseIcon';
+import { cn } from '~/utils/cn';
 
 export function DiscoursePlaceholder({ placeholder }: { placeholder: React.ReactNode }) {
   return (
@@ -25,35 +26,45 @@ export function DiscourseWidget({
   limit?: number;
 }) {
   const [loaded, setLoaded] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
+
+    (window as any).DiscourseEmbed = {
+      discourseUrl: 'https://simpeg.discourse.group/',
+      discourseEmbedUrl: 'http://localhost:3000',
+    };
+
     const script = document.createElement('script');
     script.src = `${url}/javascripts/embed-topics.js`;
     script.async = true;
     script.onload = () => {
       console.debug('Discourse script loaded successfully');
+      setLoaded(true);
     };
     script.onerror = () => {
       console.error('Script failed to load');
     };
 
     document.body.appendChild(script);
-    setLoaded(true);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  }, [ref]);
 
   return (
     <div>
       {!loaded && (
         <DiscoursePlaceholder placeholder={<span className="animate-pulse">loading</span>} />
       )}
-      {loaded && (
-        <div className="border-4 norder-gray-200 dark:border-gray-600 min-h-[60px]">
-          <d-topics-list discourse-url={url} category={category} per-page={limit}></d-topics-list>
+      <div className={cn('border-4 norder-gray-200 dark:border-gray-600 min-h-[60px]')}>
+        <div>
+          <d-topics-list
+            ref={ref}
+            discourse-url={url}
+            category={category}
+            per-page={limit}
+          ></d-topics-list>
         </div>
-      )}
+      </div>
     </div>
   );
 }
