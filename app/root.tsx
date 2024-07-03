@@ -9,8 +9,8 @@ import {
   getMetaTagsForSite,
   getThemeSession,
   ContentReload,
-  SkipToArticle,
   renderers as mystRenderers,
+  SkipTo,
 } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { renderers as customRenderers } from '~/components/renderers';
@@ -72,7 +72,7 @@ export default function AppWithReload() {
       top={0}
       renderers={{ ...mystRenderers, ...customRenderers }}
     >
-      <SkipToArticle frontmatter={false} />
+      <SkipTo targets={[{ title: 'Skip to Article', id: 'skip-to-article' }]} />
       <Outlet />
     </Document>
   );

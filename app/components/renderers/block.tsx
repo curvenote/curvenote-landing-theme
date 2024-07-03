@@ -115,6 +115,7 @@ export const CustomBlockRenderer: NodeRenderer = ({
           textColor={heroNode.data.textColor}
           padding={heroNode.data.padding}
           ctas={heroNode.data.ctas}
+          ctaStyle={heroNode.data.ctaStyle}
         />
       );
     }

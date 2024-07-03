@@ -4,6 +4,7 @@ interface TopicsListProps extends React.HTMLAttributes<HTMLElement> {
   'discourse-url': string;
   category: string;
   'per-page'?: string | number;
+  ref: any;
   // Add other props as needed
 }
 

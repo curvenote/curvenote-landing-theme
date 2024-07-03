@@ -87,7 +87,7 @@ type DiscourseOptions = {
 
 export type IncomingDiscourseNode = GenericParent<DiscourseOptions>;
 export type TransformedDiscourseNode = {
-  mode: 'widget' | 'feed';
+  mode: 'widget' | 'server' | 'client';
   logo?: string;
   logoDark?: string;
   data: { topics?: any; error?: string };

@@ -6,6 +6,7 @@ import type {
   IncomingDiscourseNode,
   TransformedDiscourseNode,
 } from './discourseTypes';
+import { formatDiscourseTopics } from '~/components/renderers/discourse';
 
 function transformNodeSimple(node: IncomingDiscourseNode & TransformedDiscourseNode) {
   const ids = node.data.identifiers;
@@ -24,12 +25,9 @@ function transformNodeSimple(node: IncomingDiscourseNode & TransformedDiscourseN
       }> | null)
     : undefined;
 
-  // TODO async + fetch
-
-  let mode: 'widget' | 'feed' = 'feed';
-  if (node.mode === 'widget') {
-    mode = 'widget';
-  }
+  let mode: 'widget' | 'server' | 'client' = 'server';
+  if (node.mode === 'widget') mode = 'widget';
+  else if (node.mode === 'client') mode = 'client';
 
   node.mode = mode;
   node.logo = logoNode?.urlOptimized ?? logoNode?.url;
@@ -38,7 +36,7 @@ function transformNodeSimple(node: IncomingDiscourseNode & TransformedDiscourseN
 }
 
 async function fetchDiscourseFeedIfNecessary(node: TransformedDiscourseNode) {
-  if (node.mode === 'widget') {
+  if (node.mode !== 'server') {
     return;
   }
 
@@ -46,26 +44,10 @@ async function fetchDiscourseFeedIfNecessary(node: TransformedDiscourseNode) {
   if (resp.ok) {
     const data = (await resp.json()) as DiscourseCategoryTopicsJson;
 
-    const users = data.users;
-    const topics = data.topic_list?.topics
-      ? data.topic_list.topics.map((t) => {
-          t.posters =
-            t.posters?.map((p) => {
-              return {
-                ...p,
-                user: users.find((u) => u.id === p.user_id),
-              };
-            }) ?? [];
-          return t;
-        })
-      : undefined;
-
-    const filteredTopics = topics
-      ?.filter((t) => (!node.pinned ? !t.pinned : true))
-      .filter((t) => t.visible && !t.archived)
-      .slice(0, node.limit);
-
-    node.data.topics = filteredTopics;
+    node.data.topics = formatDiscourseTopics(data.topic_list?.topics ?? [], data.users, {
+      pinned: node.pinned,
+      limit: node.limit,
+    });
   } else {
     node.data.error = `Failed to fetch discourse feed - ${resp.status} ${resp.statusText}`;
   }

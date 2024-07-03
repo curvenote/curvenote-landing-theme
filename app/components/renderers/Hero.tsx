@@ -15,6 +15,7 @@ export function Hero({
   textColor,
   padding,
   ctas,
+  ctaStyle = 'light',
 }: {
   containerClassName?: string;
   innerClassName?: string;
@@ -26,11 +27,25 @@ export function Hero({
   textColor?: string;
   padding?: string;
   ctas?: { title: string; url: string }[];
+  ctaStyle?: 'light' | 'dark';
 }) {
   const grid = useGridSystemProvider();
+  if (ctaStyle !== 'light' && ctaStyle !== 'dark') ctaStyle = 'light';
   const ctaClasses = [
-    'inline-block px-8 py-4 text-lg font-semibold tracking-wide no-underline bg-white border-white rounded-lg border-1 opacity-90 hover:opacity-100',
-    'inline-block px-8 py-4 rounded-lg bg-transparent border border-1 border-white text-white no-underline text-lg font-semibold tracking-wide hover:bg-gray-50/20',
+    cn(
+      'inline-block px-6 py-3 font-semibold tracking-wide no-underline rounded-lg border-1 hover:opacity-100',
+      {
+        'bg-white dark:text-stone-900 border-white opacity-90': ctaStyle === 'light',
+        'bg-stone-900 text-white border-stone-900 opacity-80': ctaStyle === 'dark',
+      }
+    ),
+    cn(
+      'inline-block px-6 py-3 rounded-lg bg-transparent no-underline font-semibold tracking-wide ',
+      {
+        'border-[1px] border-white text-white hover:bg-gray-50/20': ctaStyle === 'light',
+        'border-[1px] border-stone-900 text-stone-900 hover:bg-gray-800/10': ctaStyle === 'dark',
+      }
+    ),
   ];
   return (
     <div
