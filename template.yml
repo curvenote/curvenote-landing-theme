@@ -1,9 +1,9 @@
 jtex: v1
-title: Landing Theme
+title: Curvenote Landing
 description: Simple MyST based landing page for projects and communities
 version: 1.0.0
 license: MIT
-source: https://github.com/executablebooks/myst-landing-theme
+source: https://github.com/curvenote-themes/curvenote-landing
 thumbnail: ./thumbnail.png
 authors:
   - name: Steve Purves
@@ -12,6 +12,7 @@ authors:
       - Curvenote
 tags:
   - website
+  - landing page
 parts:
   - id: hero
     description: |
@@ -29,9 +30,12 @@ options:
   - type: boolean
     id: topbar_fixed
     description: Top bar will be fixed
-  - type: string
-    id: stylesheet
-    description: Path to a local, user defined stylesheet
+  - type: boolean
+    id: show_bibliography
+    description: A Bibliography will be rendered at the foot of the page
+  - type: boolean
+    id: show_footnotes
+    description: A list of footnotes will be rendered at the foot of the page. Footnotes will continue work as expected within the main content, irrespective of this option.
   - type: string
     id: twitter
     description: Twitter handle related to the site

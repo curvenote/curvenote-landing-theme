@@ -1,4 +1,4 @@
-import { GridSystemProvider, TabStateProvider, UiStateProvider } from '@myst-theme/providers';
+import { TabStateProvider, UiStateProvider } from '@myst-theme/providers';
 import { ComputeOptionsProvider } from '@myst-theme/jupyter';
 import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';

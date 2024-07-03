@@ -1,4 +1,4 @@
-import type { PageLoader } from '@myst-theme/common';
+import type { PageLoader, SiteLoader } from '@myst-theme/common';
 import {
   Bibliography,
   Footnotes,
@@ -23,8 +23,10 @@ import { HashLink } from 'myst-to-react';
 import { Section } from './Section';
 import { extractThemeParts } from '~/utils/myst';
 import { cn } from '~/utils/cn';
+import { useLoaderData } from '@remix-run/react';
 
 export function PageMain({ article }: { article: PageLoader }) {
+  const { config } = useLoaderData<SiteLoader>();
   const grid = useGridSystemProvider();
 
   const siteManifest = useSiteManifest() as SiteManifest;
@@ -61,9 +63,8 @@ export function PageMain({ article }: { article: PageLoader }) {
             <FrontmatterParts parts={knownParts} containerClassName="col-page-inset" />
             <ContentBlocks mdast={tree as GenericParent} className="col-page-inset" />
             <BackmatterParts parts={knownParts} containerClassName="col-page-inset" />
-            <Footnotes innerClassName="col-page-inset" />
-            <Bibliography innerClassName="col-page-inset" />
-            <div className="py-6" />
+            {config?.options?.show_footnotes && <Footnotes innerClassName="col-page-inset" />}
+            {config?.options?.show_bibliography && <Bibliography innerClassName="col-page-inset" />}
           </main>
           {themeParts.footer && (
             <ContentBlocks mdast={themeParts.footer} className="col-screen subgrid-gap" />
