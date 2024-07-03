@@ -12,7 +12,7 @@ check:
 build-theme:
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
-	git clone --depth 1 https://github.com/myst-themes/$(THEME)-theme .deploy/$(THEME)
+	git clone --depth 1 https://github.com/curvenote-themes/$(THEME) .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
 	npm run prod:build
@@ -28,7 +28,7 @@ build-landing:
 	make THEME=landing build-theme
 
 deploy-theme: check
-	echo "Deploying $(THEME) theme to myst-themes/$(THEME)-theme"
+	echo "Deploying $(THEME) theme to curvenote-themes/$(THEME)"
 	echo "Version: $(VERSION)"
 	make THEME=$(THEME) build-theme
 	cd .deploy/$(THEME) && git add .
