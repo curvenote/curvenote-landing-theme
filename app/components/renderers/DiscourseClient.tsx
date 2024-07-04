@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DiscourseFeed } from './DiscourseFeed';
 import { DiscoursePlaceholder } from './DiscourseWidget';
 import { formatDiscourseTopics } from './discourse';
-import { Topic } from '~/transforms/discourseTypes';
+import type { Topic } from '~/transforms/discourseTypes';
 
 export function DiscourseClient({
   url,

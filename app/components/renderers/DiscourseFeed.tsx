@@ -1,6 +1,7 @@
 import { DiscoursePlaceholder } from './DiscourseWidget';
 import { formatDistanceToNow, format } from 'date-fns';
 import type { Topic } from '../../transforms/discourseTypes';
+import { Pin } from 'lucide-react';
 
 function DiscourseFeedItem({ topic, url }: { topic: Topic; url: string }) {
   const {
@@ -13,6 +14,7 @@ function DiscourseFeedItem({ topic, url }: { topic: Topic; url: string }) {
     reply_count,
     views: view_count,
     last_posted_at,
+    pinned,
   } = topic;
 
   const replies = reply_count > 1000 ? `${(reply_count / 1000).toFixed()}k` : reply_count;
@@ -27,7 +29,10 @@ function DiscourseFeedItem({ topic, url }: { topic: Topic; url: string }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div className="text-lg group-hover:underline">{fancy_title ?? title}</div>
+          <div className="relative text-lg group-hover:underline">
+            {pinned && <Pin className="inline-block w-4 h-4 mb-1 mr-1" />}
+            {fancy_title ?? title}
+          </div>
           {tags && <div className="font-mono text-xs text-gray-500">{tags.join('·')}</div>}
         </a>
       </td>
