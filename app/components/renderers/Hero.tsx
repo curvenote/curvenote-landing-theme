@@ -3,8 +3,47 @@ import { ExternalOrInternalLink } from '@myst-theme/site';
 import type { GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { cn } from '~/utils/cn';
+import { toText } from 'myst-common';
+import { select } from 'unist-util-select';
 
-export function Hero({
+export interface GenericMaybeCustomBlockDirective {
+  type: string;
+  kind: string;
+  data: {
+    identifiers: Record<string, string>;
+  } & Record<string, any>;
+  children: GenericParent[];
+}
+
+export function transformHero(node: GenericMaybeCustomBlockDirective): any {
+  const ids = node.data.identifiers;
+
+  const title = select(`[identifier=${ids.title}]`, node);
+  const tagline = select(`[identifier=${ids.tagline}]`, node);
+  const description = select(`[identifier=${ids.description}]`, node);
+  const backgroundImage = select(`[identifier=${ids.backgroundImage}]`, node) as GenericParent;
+
+  const ctas = [];
+  const cta1 = select(`[identifier=${ids.cta}]`, node) as GenericParent;
+  if (cta1) ctas.push({ title: toText(cta1), url: cta1.url });
+  const cta2 = select(`[identifier=${ids.cta2}]`, node) as GenericParent;
+  if (cta2) ctas.push({ title: toText(cta2), url: cta2.url });
+
+  return {
+    ...node,
+    data: {
+      ...node.data, // backgroundColor, padding
+      title,
+      tagline,
+      description,
+      backgroundImage: backgroundImage?.urlOptimized ?? backgroundImage?.url,
+      ctas,
+    },
+    children: [],
+  };
+}
+
+export function HeroComponent({
   containerClassName,
   innerClassName = 'col-page-inset',
   title,
@@ -100,5 +139,22 @@ export function Hero({
         )}
       </div>
     </div>
+  );
+}
+
+export function Hero({ node }: { node: GenericMaybeCustomBlockDirective }) {
+  const heroNode = transformHero(node);
+  return (
+    <HeroComponent
+      title={heroNode.data.title}
+      tagline={heroNode.data.tagline}
+      description={heroNode.data.description}
+      backgroundImageUrl={heroNode.data.backgroundImage}
+      backgroundColor={heroNode.data.backgroundColor}
+      textColor={heroNode.data.textColor}
+      padding={heroNode.data.padding}
+      ctas={heroNode.data.ctas}
+      ctaStyle={heroNode.data.ctaStyle}
+    />
   );
 }
