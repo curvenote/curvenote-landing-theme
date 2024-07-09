@@ -88,7 +88,6 @@ export function DiscourseFeed({
   logoTitle?: string;
   isDark?: boolean;
 }) {
-  console.log({ topics });
   if (error || !topics) {
     return (
       <section className={className}>
