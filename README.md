@@ -8,7 +8,7 @@ To use this template locally, update your site template make sure your project's
 
 ```sh
 site:
-  template: landing-theme
+  template: curvenote/curvenote-landing
 ```
 
 OR
