@@ -4,6 +4,7 @@ import { ExternalOrInternalLink, ThemeButton } from '@myst-theme/site';
 import { DownloadLinksArea } from './Downloads';
 import { ActionMenu } from './myst/ActionMenu';
 import { HomeLink } from './myst/HomeLink';
+import { CurvenoteTag } from './curvenote';
 
 const DEFAULT_HEIGHT = 60;
 
@@ -32,7 +33,6 @@ export function TopBar() {
           </div>
           <div className="flex items-center flex-grow w-auto">
             <div className="flex-grow block"></div>
-            <ThemeButton />
             <div className="block sm:hidden">
               <ActionMenu actions={actions} />
               {/* this will not work as is, but we need some consolidated actions / downloads component */}
@@ -50,6 +50,7 @@ export function TopBar() {
               ))}
             </div>
           </div>
+          <CurvenoteTag />
         </nav>
       </div>
     </div>
