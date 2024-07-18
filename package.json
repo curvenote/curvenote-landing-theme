@@ -1,6 +1,6 @@
 {
-  "name": "@myst-theme/landing",
-  "version": "0.9.9",
+  "name": "@curvenote-themes/landing",
+  "version": "1.0.0",
   "private": true,
   "sideEffects": false,
   "scripts": {
