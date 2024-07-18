@@ -66,8 +66,8 @@ export function PoweredByFooter() {
     <div className="col-screen article-center-grid bg-[#2A5F9D] py-3 px-6">
       <div className="grid grid-cols-1 gap-2 col-screen-inset md:grid-cols-12">
         <div className="text-center md:text-left md:col-span-6">
-          <span className="text-sm text-white">Supported by </span>
-          <a href="https://curvenote.com" target="_blank" rel="noreferrer">
+          <span className="text-sm text-white align-middle">Supported by </span>
+          <a href="https://curvenote.com" target="_blank" rel="noreferrer" className="align-middle">
             <CurvenoteText className="inline-block -translate-y-px" fill="#FFF" size={18} />
             <span className="sr-only">Curvenote</span>
           </a>
