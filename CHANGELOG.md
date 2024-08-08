@@ -1,3 +1,9 @@
-# @curvenote/myst-landing-theme
+# @curvenote/curvenote-landing-theme
 
-## 0.9.9
+## Next
+
+- Make Curvenote tag optional
+
+## 1.0.2
+
+Fix alignment issues
