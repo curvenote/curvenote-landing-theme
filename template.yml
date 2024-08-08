@@ -31,6 +31,10 @@ options:
     id: topbar_fixed
     description: Top bar will be fixed
   - type: boolean
+    id: curvenote_tag
+    description: Show the Curvenote tag in the top navbar
+    default: false
+  - type: boolean
     id: show_bibliography
     description: A Bibliography will be rendered at the foot of the page
   - type: boolean
