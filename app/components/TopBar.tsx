@@ -11,8 +11,15 @@ const DEFAULT_HEIGHT = 60;
 export function TopBar() {
   const config = useSiteManifest();
   const { title, actions } = config ?? {};
-  const { logo, logo_dark, logo_text, topbar_height, topbar_floating, topbar_fixed } =
-    config?.options ?? {};
+  const {
+    logo,
+    logo_dark,
+    logo_text,
+    topbar_height,
+    topbar_floating,
+    topbar_fixed,
+    curvenote_tag,
+  } = config?.options ?? {};
 
   const height = topbar_height ?? DEFAULT_HEIGHT;
 
@@ -50,7 +57,10 @@ export function TopBar() {
               ))}
             </div>
           </div>
-          <CurvenoteTag />
+          {curvenote_tag && <CurvenoteTag />}
+          {!curvenote_tag && (
+            <ThemeButton className="self-center inline-block w-6 h-6 ml-2 sm:w-7 sm:h-7" />
+          )}
         </nav>
       </div>
     </div>
