@@ -30,6 +30,14 @@ options:
   - type: boolean
     id: topbar_fixed
     description: Top bar will be fixed
+  - type: choice
+    id: curvenote_footer
+    description: Select which curvenote footer should be shown - full, support, design (default)
+    default: design
+    choices:
+      - design
+      - support
+      - full
   - type: boolean
     id: show_bibliography
     description: A Bibliography will be rendered at the foot of the page
