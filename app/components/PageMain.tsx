@@ -24,6 +24,8 @@ import { Section } from './Section';
 import { extractThemeParts } from '~/utils/myst';
 import { cn } from '~/utils/cn';
 import { useLoaderData } from '@remix-run/react';
+import { SupportedByFooter, DesignedByFooter } from './curvenote';
+import { CurvenoteFooter } from '@curvenote/footers';
 
 export function PageMain({ article }: { article: PageLoader }) {
   const { config } = useLoaderData<SiteLoader>();
@@ -32,10 +34,23 @@ export function PageMain({ article }: { article: PageLoader }) {
   const siteManifest = useSiteManifest() as SiteManifest;
   const { title } = siteManifest ?? {};
   const compute = useComputeOptions();
+  const { curvenote_footer } = siteManifest?.options ?? {};
 
   const tree = copyNode(article.mdast);
   const knownParts = extractKnownParts(tree);
   const themeParts = extractThemeParts(tree);
+
+  let brandFooter = null;
+  switch (curvenote_footer) {
+    case 'full':
+      brandFooter = <CurvenoteFooter />;
+      break;
+    case 'support':
+      brandFooter = <SupportedByFooter />;
+      break;
+    default:
+      brandFooter = <DesignedByFooter />;
+  }
 
   return (
     <ReferencesProvider
@@ -69,6 +84,7 @@ export function PageMain({ article }: { article: PageLoader }) {
           {themeParts.footer && (
             <ContentBlocks mdast={themeParts.footer} className="col-screen subgrid-gap" />
           )}
+          {brandFooter}
           <ConnectionStatusTray />
         </ExecuteScopeProvider>
       </BusyScopeProvider>
