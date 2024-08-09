@@ -1,4 +1,4 @@
-.PHONY: build-theme build-landing deploy deploy-theme check
+.PHONY: build-theme build-landing deploy deploy-theme deploy-landing check
 
 COMMIT = $(shell git rev-parse --short HEAD)
 # You may need to install jq for this to work!
@@ -36,6 +36,7 @@ deploy-theme: check
 	cd .deploy/$(THEME) && git push -u origin main
 
 
-deploy:
+deploy: deploy-landing
+
 deploy-landing:
 	make THEME=landing deploy-theme
