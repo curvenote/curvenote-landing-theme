@@ -87,16 +87,14 @@ export function SupportedByFooter() {
 export function DesignedByFooter() {
   return (
     <div className="px-6 pt-1 pb-[6px] bg-gray-400 dark:bg-stone-900 col-screen article-center-grid">
-      <div className="grid grid-cols-1 gap-2 col-screen-inset md:grid-cols-12">
-        <div className="text-center md:text-left md:col-span-6">
-          <span className="text-sm text-white align-middle" aria-hidden="true">
-            Theme designed by{' '}
-          </span>
-          <a href="https://curvenote.com" target="_blank" rel="noreferrer" className="align-middle">
-            <CurvenoteText className="inline-block -translate-y-px" fill="#FFF" size={18} />
-            <span className="sr-only">Theme designed by Curvenote</span>
-          </a>
-        </div>
+      <div className="text-center">
+        <span className="text-sm text-white align-middle" aria-hidden="true">
+          Theme designed by{' '}
+        </span>
+        <a href="https://curvenote.com" target="_blank" rel="noreferrer" className="align-middle">
+          <CurvenoteText className="inline-block -translate-y-px" fill="#FFF" size={18} />
+          <span className="sr-only">Theme designed by Curvenote</span>
+        </a>
       </div>
     </div>
   );
