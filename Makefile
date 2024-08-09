@@ -2,7 +2,7 @@
 
 COMMIT = $(shell git rev-parse --short HEAD)
 # You may need to install jq for this to work!
-VERSION = $(shell cat packages/site/package.json | jq -r '.version')
+VERSION = $(shell cat package.json | jq -r '.version')
 
 THEME=landing
 
