@@ -1,5 +1,6 @@
 import { CurvenoteText } from '@curvenote/icons';
 import { ThemeButton } from '@myst-theme/site';
+import { CurvenoteLinks, SocialIcons } from '@curvenote/social';
 
 import { useEffect, useState } from 'react';
 
@@ -57,21 +58,44 @@ export function CurvenoteTag() {
   );
 }
 
-export function PoweredByCurvenote({ message, url }: { message?: string; url?: string }) {
+export function SupportedByFooter() {
   return (
-    <div className="flex items-center gap-1">
-      <div aria-hidden="true" className="text-[14px] text-[#235F9D] pointer-events-none">
-        {message ?? 'Powered by'}
+    <div className="col-screen article-center-grid bg-[#2A5F9D] py-3 px-6">
+      <div className="grid grid-cols-1 gap-2 col-screen-inset md:grid-cols-12">
+        <div className="text-center md:text-left md:col-span-6">
+          <span className="text-sm text-white align-middle" aria-hidden="true">
+            Supported by{' '}
+          </span>
+          <a href="https://curvenote.com" target="_blank" rel="noreferrer" className="align-middle">
+            <CurvenoteText className="inline-block -translate-y-px" fill="#FFF" size={18} />
+            <span className="sr-only">Supported by Curvenote</span>
+          </a>
+        </div>
+
+        <div className="m-auto text-white md:mx-0 md:col-span-6">
+          <SocialIcons
+            links={CurvenoteLinks}
+            containerClass="md:float-right text-white"
+            iconClass="h-4 w-4 text-white"
+          />
+        </div>
       </div>
-      <a
-        href={url ?? 'https://curvenote.com'}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-block"
-      >
-        <CurvenoteText size={16} />
-        <span className="sr-only">Powered by Curvenote</span>
-      </a>
+    </div>
+  );
+}
+
+export function DesignedByFooter() {
+  return (
+    <div className="px-6 pt-1 pb-[6px] bg-gray-400 dark:bg-stone-900 col-screen article-center-grid">
+      <div className="text-center">
+        <span className="text-sm text-white align-middle" aria-hidden="true">
+          Theme designed by{' '}
+        </span>
+        <a href="https://curvenote.com" target="_blank" rel="noreferrer" className="align-middle">
+          <CurvenoteText className="inline-block -translate-y-px" fill="#FFF" size={18} />
+          <span className="sr-only">Theme designed by Curvenote</span>
+        </a>
+      </div>
     </div>
   );
 }
