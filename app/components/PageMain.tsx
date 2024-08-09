@@ -24,7 +24,7 @@ import { Section } from './Section';
 import { extractThemeParts } from '~/utils/myst';
 import { cn } from '~/utils/cn';
 import { useLoaderData } from '@remix-run/react';
-import { SupportedByFooter, DesignedByFooter } from './curvenote';
+import { SupportedByFooter, DesignedByFooter } from '@curvenote/footers';
 import { CurvenoteFooter } from '@curvenote/footers';
 
 export function PageMain({ article }: { article: PageLoader }) {
