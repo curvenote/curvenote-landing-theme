@@ -19,6 +19,7 @@ build-theme:
 	cp -r public .deploy/$(THEME)/public
 	cp -r build .deploy/$(THEME)/build
 	cp -r template.yml .deploy/$(THEME)/template.yml
+	cp -r template/README.md .deploy/$(THEME)/README.md
 	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
 	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
 	rm .deploy/$(THEME)/package.json.bak
