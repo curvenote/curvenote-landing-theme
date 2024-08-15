@@ -7,6 +7,7 @@ import type { Topic } from '~/transforms/discourseTypes';
 export function DiscourseClient({
   url,
   category,
+  pinned,
   limit,
   className,
   logo,
@@ -16,6 +17,7 @@ export function DiscourseClient({
 }: {
   url: string;
   category: string;
+  pinned?: boolean;
   limit?: number;
   className?: string;
   logo?: string;
@@ -31,7 +33,7 @@ export function DiscourseClient({
       .then(async (resp) => {
         if (resp.ok) {
           const data = await resp.json();
-          const dto = formatDiscourseTopics(data.topic_list.topics, data.users, { limit });
+          const dto = formatDiscourseTopics(data.topic_list.topics, data.users, { pinned, limit });
           setTopics(dto);
         } else {
           setError('Could not fetch topics.');

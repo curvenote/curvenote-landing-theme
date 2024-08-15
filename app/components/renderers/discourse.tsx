@@ -21,13 +21,13 @@ export function formatDiscourseTopics(
   });
 
   return composed
-    ?.filter((t) => (!opts.pinned ? !t.pinned : true))
+    ?.filter((t) => (opts.pinned ? true : !t.pinned))
     .filter((t) => t.visible && !t.archived)
     .slice(0, opts.limit);
 }
 
 export const DiscourseRenderer: NodeRenderer = ({ node }: { node: TransformedDiscourseNode }) => {
-  const { mode, url, category, limit, logo, logoDark, logoTitle, data } = node;
+  const { mode, url, category, pinned, limit, logo, logoDark, logoTitle, data } = node;
 
   const { isDark } = useTheme();
   if (mode === 'widget') {
@@ -37,8 +37,8 @@ export const DiscourseRenderer: NodeRenderer = ({ node }: { node: TransformedDis
       <DiscourseClient
         url={url}
         category={category}
+        pinned={pinned}
         limit={limit}
-        error={data.error}
         logo={logo}
         logoDark={logoDark}
         logoTitle={logoTitle}
